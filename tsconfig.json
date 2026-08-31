@@ -17,9 +17,6 @@
     "skipLibCheck": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "types": ["vitest/globals", "node"],
-    "paths": {
-      "@userManagement/*": ["./src/modules/user-management/*"]
-    }
+    "types": ["vitest/globals", "node"]
   }
 }
