@@ -1,0 +1,35 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/crates/oxc_linter/src/rules.rs",
+  "plugins": ["eslint"],
+  "categories": {
+    "correctness": "error",
+    "restriction": "error"
+  },
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-floating-promises": "warn",
+    "eslint/no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["*"],
+            "importNames": ["default"],
+            "message": "Default imports are forbidden. Please use named imports with {} instead."
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts", "**/*.e2e-spec.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": "off"
+      }
+    }
+  ],
+  "env": {
+    "node": true
+  }
+}
