@@ -37,6 +37,7 @@
     "pg": "8.23.0",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
+    "uuid": "14.0.2",
     "zod": "4.5.4"
   },
   "devDependencies": {
@@ -70,6 +71,10 @@
     "#modules/*": {
       "types": "./src/modules/*.ts",
       "default": "./dist/modules/*.js"
+    },
+    "#prisma/*": {
+      "types": "./src/generated/prisma/*.ts",
+      "default": "./dist/generated/prisma/*.js"
     }
   }
 }

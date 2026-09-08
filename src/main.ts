@@ -7,6 +7,8 @@ import { EnvService } from '#shared-modules/env/env.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   const config = new DocumentBuilder().setTitle('Estocai API').build();
   const rawDocument = SwaggerModule.createDocument(app, config);
   const document = cleanupOpenApiDoc(rawDocument);
