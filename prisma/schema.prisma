@@ -6,9 +6,75 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum UserStatus {
+  active
+  inactive
+  deleted
+
+  @@map("user_status")
+}
+
+model User {
+  userId          String           @id @map("user_id") @db.Uuid
+  firstName       String           @db.VarChar(100)
+  lastName        String?          @db.VarChar(100)
+  status          UserStatus       @default(active)
+  createdAt       DateTime         @default(now()) @db.Timestamptz()
+  updatedAt       DateTime         @updatedAt @db.Timestamptz()
+  deletedAt       DateTime?        @db.Timestamptz()
+  userIdentifiers UserIdentifier[]
+  userAuthMethods UserAuthMethod[]
+
+  @@map("users")
+}
+
+enum UserIdentifierType {
+  email
+  username
+
+  @@map("user_identifier_type")
+}
+
+model UserIdentifier {
+  userIdentifierId String             @id @map("user_identifier_id") @db.Uuid
+  userId           String             @db.Uuid
+  type             UserIdentifierType
+  identifier       String             @db.VarChar(100)
+  createdAt        DateTime           @default(now()) @db.Timestamptz()
+  updatedAt        DateTime           @updatedAt @db.Timestamptz()
+
+  user User @relation(fields: [userId], references: [userId])
+
+  @@unique([userId, identifier], name: "user_auth_identifier")
+  @@map("user_identifiers")
+}
+
+enum UserAuthType {
+  password
+  oauth
+}
+
+enum UserAuthProvider {
+  google
+}
+
+model UserAuthMethod {
+  userAuthenticationId String            @id @map("user_auth_id") @db.Uuid
+  userId               String            @db.Uuid
+  type                 UserAuthType
+  passwordHash         String            @db.Text
+  provider             UserAuthProvider?
+  providerSubject      String?           @db.VarChar(255)
+
+  user User @relation(fields: [userId], references: [userId])
+
+  @@unique([provider, providerSubject], name: "user_auth_provider_sub")
+  @@map("user_auth_methods")
 }
