@@ -16,6 +16,7 @@ export class EnvModule {
       ],
       providers: [EnvService],
       exports: [EnvService],
+      global: true,
     };
   }
 }
