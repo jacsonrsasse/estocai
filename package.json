@@ -64,9 +64,9 @@
       "types": "./src/modules/shared/modules/*.ts",
       "default": "./dist/modules/shared/modules/*.js"
     },
-    "#shared-utils/*": {
-      "types": "./src/modules/shared/utils/*.ts",
-      "default": "./dist/modules/shared/utils/*.js"
+    "#shared-libs/*": {
+      "types": "./src/modules/shared/libs/*.ts",
+      "default": "./dist/modules/shared/libs/*.js"
     },
     "#modules/*": {
       "types": "./src/modules/*.ts",
