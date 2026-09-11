@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
+  app.getHttpAdapter().getInstance().disable('x-powered-by');
 
   const config = new DocumentBuilder().setTitle('Estocai API').build();
   const rawDocument = SwaggerModule.createDocument(app, config);
