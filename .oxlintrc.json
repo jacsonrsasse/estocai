@@ -19,7 +19,8 @@
           }
         ]
       }
-    ]
+    ],
+    "eslint/class-methods-use-this": "off"
   },
   "overrides": [
     {
