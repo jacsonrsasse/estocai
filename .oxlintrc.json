@@ -24,7 +24,12 @@
   },
   "overrides": [
     {
-      "files": ["**/*.spec.ts", "**/*.e2e-spec.ts", "vitest.config.ts"],
+      "files": [
+        "**/*.spec.ts",
+        "**/*.e2e-spec.ts",
+        "vitest.config.ts",
+        "vitest.config.e2e.ts"
+      ],
       "rules": {
         "eslint/no-restricted-imports": "off"
       }
