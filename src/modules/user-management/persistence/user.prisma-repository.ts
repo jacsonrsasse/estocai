@@ -1,4 +1,4 @@
-import { UserModel } from '#modules/user-management/core/model/user.model';
+import { UserModel, UserStatus } from '#modules/user-management/core/model/user.model';
 import { UserStatusMapper } from '#modules/user-management/persistence/user-status.mapper';
 import { PrismaDefaultRepository } from '#shared-modules/persistence/prisma/prisma-default.repository';
 import { PrismaService } from '#shared-modules/persistence/prisma/prisma.service';
@@ -19,6 +19,35 @@ export class UserRepository extends PrismaDefaultRepository {
         data: {
           ...user,
           status: UserStatusMapper.toPrisma[user.status],
+        },
+      });
+    } catch (error) {
+      this.handleAndThrowError(error);
+    }
+  }
+
+  async findById(userId: string): Promise<UserModel | null> {
+    try {
+      const user = await this.model.findUnique({ where: { userId } });
+      if (!user) {
+        return null;
+      }
+      return UserModel.restore({
+        ...user,
+        status: UserStatusMapper.toDomain[user.status],
+      });
+    } catch (error) {
+      this.handleAndThrowError(error);
+    }
+  }
+
+  async softDelete(userId: string): Promise<void> {
+    try {
+      await this.model.update({
+        where: { userId },
+        data: {
+          status: UserStatusMapper.toPrisma[UserStatus.deleted],
+          deletedAt: new Date(),
         },
       });
     } catch (error) {

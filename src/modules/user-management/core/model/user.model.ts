@@ -36,4 +36,8 @@ export class UserModel {
       deletedAt: data.deletedAt || null,
     });
   }
+
+  static restore(data: UserModel) {
+    return new UserModel(data);
+  }
 }
