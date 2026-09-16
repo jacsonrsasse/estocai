@@ -22,15 +22,16 @@ enum UserStatus {
 }
 
 model User {
-  userId          String           @id @map("user_id") @db.Uuid
-  firstName       String           @db.VarChar(100)
-  lastName        String?          @db.VarChar(100)
-  status          UserStatus       @default(active)
-  createdAt       DateTime         @default(now()) @db.Timestamptz()
-  updatedAt       DateTime         @updatedAt @db.Timestamptz()
-  deletedAt       DateTime?        @db.Timestamptz()
-  userIdentifiers UserIdentifier[]
-  userAuthMethods UserAuthMethod[]
+  userId              String               @id @map("user_id") @db.Uuid
+  firstName           String               @map("first_name") @db.VarChar(100)
+  lastName            String?              @map("last_name") @db.VarChar(100)
+  status              UserStatus           @default(active)
+  createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt           DateTime             @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt           DateTime?            @map("deleted_at") @db.Timestamptz()
+  userIdentifiers     UserIdentifier[]
+  passwordCredentials PasswordCredential[]
+  oauthCredentials    OAuthCredential[]
 
   @@map("users")
 }
@@ -44,37 +45,45 @@ enum UserIdentifierType {
 
 model UserIdentifier {
   userIdentifierId String             @id @map("user_identifier_id") @db.Uuid
-  userId           String             @db.Uuid
+  userId           String             @map("user_id") @db.Uuid
   type             UserIdentifierType
   identifier       String             @db.VarChar(100)
-  createdAt        DateTime           @default(now()) @db.Timestamptz()
-  updatedAt        DateTime           @updatedAt @db.Timestamptz()
+  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt        DateTime           @updatedAt @map("updated_at") @db.Timestamptz()
 
   user User @relation(fields: [userId], references: [userId])
 
-  @@unique([userId, identifier], name: "user_auth_identifier")
+  @@unique([type, identifier], name: "user_type_identifier")
   @@map("user_identifiers")
 }
 
-enum UserAuthType {
-  password
-  oauth
-}
-
-enum UserAuthProvider {
-  google
-}
-
-model UserAuthMethod {
-  userAuthenticationId String            @id @map("user_auth_id") @db.Uuid
-  userId               String            @db.Uuid
-  type                 UserAuthType
-  passwordHash         String            @db.Text
-  provider             UserAuthProvider?
-  providerSubject      String?           @db.VarChar(255)
+model PasswordCredential {
+  passwordCredentialId String   @id @map("password_credential_id") @db.Uuid
+  userId               String   @map("user_id") @db.Uuid
+  passwordHash         String   @map("password_hash")
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   user User @relation(fields: [userId], references: [userId])
 
-  @@unique([provider, providerSubject], name: "user_auth_provider_sub")
-  @@map("user_auth_methods")
+  @@map("password_credentials")
+}
+
+enum UserOAuthProvider {
+  google
+
+  @@map("user_oauth_provider")
+}
+
+model OAuthCredential {
+  oauthCredentialId String            @id @map("oauth_credential_id") @db.Uuid
+  userId            String            @map("user_id") @db.Uuid
+  provider          UserOAuthProvider
+  providerSubject   String            @map("provider_subject") @db.VarChar(255)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz()
+
+  user User @relation(fields: [userId], references: [userId])
+
+  @@map("oauth_credentials")
 }
