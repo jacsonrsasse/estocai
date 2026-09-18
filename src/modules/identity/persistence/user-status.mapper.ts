@@ -1,4 +1,4 @@
-import { UserStatus } from '#modules/user-management/core/model/user.model';
+import { UserStatus } from '#modules/identity/core/model/user.model';
 
 import { UserStatus as UserStatusPrisma } from '#prisma/enums';
 

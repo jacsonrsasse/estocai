@@ -1,5 +1,5 @@
-import { UserModel, UserStatus } from '#modules/user-management/core/model/user.model';
-import { UserStatusMapper } from '#modules/user-management/persistence/user-status.mapper';
+import { UserModel, UserStatus } from '#modules/identity/core/model/user.model';
+import { UserStatusMapper } from '#modules/identity/persistence/user-status.mapper';
 import { PrismaDefaultRepository } from '#shared-modules/persistence/prisma/prisma-default.repository';
 import { PrismaService } from '#shared-modules/persistence/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';

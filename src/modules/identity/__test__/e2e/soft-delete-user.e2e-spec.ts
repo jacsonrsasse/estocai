@@ -1,5 +1,5 @@
-import { UserModel, UserStatus } from '#modules/user-management/core/model/user.model';
-import { UserManagementModule } from '#modules/user-management/user-management.module';
+import { UserModel, UserStatus } from '#modules/identity/core/model/user.model';
+import { UserManagementModule } from '#modules/identity/user-management.module';
 import { createNestApp } from '#test/test-e2e.setup';
 import { testDbClient } from '#test/knex.database';
 import { resetDatabase } from '#test/reset-database';

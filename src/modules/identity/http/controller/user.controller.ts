@@ -1,8 +1,8 @@
-import { CreateUserUseCase } from '#modules/user-management/core/use-case/create-user.use-case';
-import { SoftDeleteUserUseCase } from '#modules/user-management/core/use-case/soft-delete-user.use-case';
-import { CreateUserResponseDto } from '#modules/user-management/http/dto/create-user-response.dto';
-import { CreateUserDto } from '#modules/user-management/http/dto/create-user.dto';
-import { SoftDeleteUserParamsDto } from '#modules/user-management/http/dto/soft-delete-user-params.dto';
+import { CreateUserUseCase } from '#modules/identity/core/use-case/create-user.use-case';
+import { SoftDeleteUserUseCase } from '#modules/identity/core/use-case/soft-delete-user.use-case';
+import { CreateUserResponseDto } from '#modules/identity/http/dto/create-user-response.dto';
+import { CreateUserDto } from '#modules/identity/http/dto/create-user.dto';
+import { SoftDeleteUserParamsDto } from '#modules/identity/http/dto/soft-delete-user-params.dto';
 import {
   Body,
   Controller,

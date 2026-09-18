@@ -1,4 +1,4 @@
-import { UserManagementModule } from '#modules/user-management/user-management.module';
+import { UserManagementModule } from '#modules/identity/user-management.module';
 import { createNestApp } from '#test/test-e2e.setup';
 import { testDbClient } from '#test/knex.database';
 import { resetDatabase } from '#test/reset-database';
