@@ -1,5 +1,6 @@
 import { UserModel, UserStatus } from '#modules/identity/core/model/user.model';
 import { UserStatusMapper } from '#modules/identity/persistence/user-status.mapper';
+import { Prisma } from '#prisma/client';
 import { PrismaDefaultRepository } from '#shared-modules/persistence/prisma/prisma-default.repository';
 import { PrismaService } from '#shared-modules/persistence/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
@@ -13,9 +14,9 @@ export class UserRepository extends PrismaDefaultRepository {
     this.model = prismaService.user;
   }
 
-  async create(user: UserModel) {
+  async create(user: UserModel, tx?: Prisma.TransactionClient) {
     try {
-      await this.model.create({
+      await (tx?.user ?? this.model).create({
         data: {
           ...user,
           status: UserStatusMapper.toPrisma[user.status],

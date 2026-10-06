@@ -1,5 +1,5 @@
 import { UserModel, UserStatus } from '#modules/identity/core/model/user.model';
-import { UserManagementModule } from '#modules/identity/user-management.module';
+import { IdentityModule } from '#modules/identity/identity.module';
 import { createNestApp } from '#test/test-e2e.setup';
 import { testDbClient } from '#test/knex.database';
 import { resetDatabase } from '#test/reset-database';
@@ -11,7 +11,7 @@ describe('DELETE /users/:userId (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    ({ app } = await createNestApp([UserManagementModule]));
+    ({ app } = await createNestApp([IdentityModule]));
   });
 
   afterEach(async () => {
@@ -29,12 +29,12 @@ describe('DELETE /users/:userId (e2e)', () => {
 
     await testDbClient(Tables.Users).insert({
       user_id: data.userId,
-      firstName: data.firstName,
-      lastName: data.lastName,
+      first_name: data.firstName,
+      last_name: data.lastName,
       status: data.status,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
-      deletedAt: data.deletedAt,
+      created_at: data.createdAt,
+      updated_at: data.updatedAt,
+      deleted_at: data.deletedAt,
     });
 
     return data;
@@ -52,7 +52,7 @@ describe('DELETE /users/:userId (e2e)', () => {
       .first();
 
     expect(updated.status).toBe('deleted');
-    expect(updated.deletedAt).not.toBeNull();
+    expect(updated.deleted_at).not.toBeNull();
   });
 
   it('returns success when the user is already deleted', async () => {

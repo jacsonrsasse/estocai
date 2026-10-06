@@ -10,6 +10,9 @@ export const factory = (): Env => {
     database: {
       url: process.env.DATABASE_URL,
     },
+    security: {
+      passwordPepper: process.env.PASSWORD_PEPPER,
+    },
   });
 
   if (result.success) {

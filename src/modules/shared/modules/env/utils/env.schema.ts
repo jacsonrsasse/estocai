@@ -8,7 +8,12 @@ const databaseSchema = z.object({
   url: z.string(),
 });
 
+const securitySchema = z.object({
+  passwordPepper: z.string(),
+});
+
 export const envSchema = z.object({
   app: appSchema,
   database: databaseSchema,
+  security: securitySchema,
 });

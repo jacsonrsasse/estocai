@@ -1,4 +1,5 @@
 import { EnvModule } from '#shared-modules/env/env.module';
+import { PasswordHashingModule } from '#shared-modules/password-hashing/password-hashing.module';
 import { PrismaModule } from '#shared-modules/persistence/prisma/prisma.module';
 import { ModuleMetadata } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
@@ -8,6 +9,7 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
 const commonImports: ModuleMetadata['imports'] = [
   EnvModule.forRoot(),
   PrismaModule,
+  PasswordHashingModule,
 ];
 
 export const createNestApp = async (
