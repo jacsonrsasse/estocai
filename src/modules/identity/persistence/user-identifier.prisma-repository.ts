@@ -1,4 +1,7 @@
-import { UserIdentifierModel } from '#modules/identity/core/model/user-identifier.model';
+import {
+  LoginTypeWithPassword,
+  UserIdentifierModel,
+} from '#modules/identity/core/model/user-identifier.model';
 import { LoginTypeWithPasswordMapper } from '#modules/identity/persistence/login-type-with-password.mapper';
 import { Prisma } from '#prisma/client';
 import { PrismaDefaultRepository } from '#shared-modules/persistence/prisma/prisma-default.repository';
@@ -21,6 +24,32 @@ export class UserIdentifierRepository extends PrismaDefaultRepository {
           ...identifier,
           type: LoginTypeWithPasswordMapper.toPrisma[identifier.type],
         },
+      });
+    } catch (error) {
+      this.handleAndThrowError(error);
+    }
+  }
+
+  async findByTypeAndIdentifier(
+    type: LoginTypeWithPassword,
+    identifier: string,
+    tx?: Prisma.TransactionClient,
+  ): Promise<UserIdentifierModel | null> {
+    try {
+      const found = await (tx?.userIdentifier ?? this.model).findUnique({
+        where: {
+          user_type_identifier: {
+            type: LoginTypeWithPasswordMapper.toPrisma[type],
+            identifier,
+          },
+        },
+      });
+      if (!found) {
+        return null;
+      }
+      return UserIdentifierModel.restore({
+        ...found,
+        type: LoginTypeWithPasswordMapper.toDomain[found.type],
       });
     } catch (error) {
       this.handleAndThrowError(error);

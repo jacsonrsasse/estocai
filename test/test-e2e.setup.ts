@@ -1,3 +1,4 @@
+import { ApplicationExceptionFilter } from '#shared-libs/exception/application-exception.filter';
 import { EnvModule } from '#shared-modules/env/env.module';
 import { PasswordHashingModule } from '#shared-modules/password-hashing/password-hashing.module';
 import { PrismaModule } from '#shared-modules/persistence/prisma/prisma.module';
@@ -24,6 +25,7 @@ export const createNestApp = async (
   }).compile();
 
   const app = module.createNestApplication();
+  app.useGlobalFilters(new ApplicationExceptionFilter());
   await app.init();
 
   return { module, app };

@@ -1,3 +1,4 @@
+import { IdentifierAvailabilityService } from '#modules/identity/core/service/identifier-availability.service';
 import { CreateUserUseCase } from '#modules/identity/core/use-case/create-user.use-case';
 import { SoftDeleteUserUseCase } from '#modules/identity/core/use-case/soft-delete-user.use-case';
 import { UserController } from '#modules/identity/http/controller/user.controller';
@@ -14,6 +15,7 @@ import { Module } from '@nestjs/common';
     UserRepository,
     UserIdentifierRepository,
     PasswordCredentialRepository,
+    IdentifierAvailabilityService,
   ],
 })
 export class IdentityModule {}

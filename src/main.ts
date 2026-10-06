@@ -3,12 +3,14 @@ import { AppModule } from './app.module.js';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { cleanupOpenApiDoc } from 'nestjs-zod';
 import { EnvService } from '#shared-modules/env/env.service';
+import { ApplicationExceptionFilter } from '#shared-libs/exception/application-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
   app.getHttpAdapter().getInstance().disable('x-powered-by');
+  app.useGlobalFilters(new ApplicationExceptionFilter());
 
   const config = new DocumentBuilder().setTitle('Estocai API').build();
   const rawDocument = SwaggerModule.createDocument(app, config);

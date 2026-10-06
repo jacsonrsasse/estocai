@@ -4,6 +4,7 @@ import {
   UserIdentifierModel,
 } from '#modules/identity/core/model/user-identifier.model';
 import { UserModel } from '#modules/identity/core/model/user.model';
+import { IdentifierAvailabilityService } from '#modules/identity/core/service/identifier-availability.service';
 import { generateTemporaryPassword } from '#modules/identity/core/util/generate-temporary-password.util';
 import { CreateUserResponseDto } from '#modules/identity/http/dto/create-user-response.dto';
 import { CreateUserDto } from '#modules/identity/http/dto/create-user.dto';
@@ -26,6 +27,7 @@ export class CreateUserUseCase implements UseCase<
     private readonly userIdentifierRepository: UserIdentifierRepository,
     private readonly passwordCredentialRepository: PasswordCredentialRepository,
     private readonly passwordHashingService: PasswordHashingService,
+    private readonly identifierAvailabilityService: IdentifierAvailabilityService,
   ) {}
 
   async execute(data: CreateUserDto): Promise<CreateUserResponseDto> {
@@ -33,6 +35,11 @@ export class CreateUserUseCase implements UseCase<
       data.loginType === LoginTypeWithPassword.email
         ? data.email!
         : data.username!;
+
+    await this.identifierAvailabilityService.checkAvailable(
+      data.loginType,
+      identifierValue,
+    );
 
     const temporaryPassword = generateTemporaryPassword();
     const passwordHash =

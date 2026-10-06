@@ -118,4 +118,51 @@ describe('POST /users (e2e)', () => {
       .expect(400);
   });
 
+  it('rejects creating a user with an email that is already in use', async () => {
+    await request(app.getHttpServer())
+      .post('/users')
+      .send({
+        loginType: 'email',
+        email: 'duplicate@example.com',
+        firstName: 'John',
+      })
+      .expect(200);
+
+    const response = await request(app.getHttpServer())
+      .post('/users')
+      .send({
+        loginType: 'email',
+        email: 'duplicate@example.com',
+        firstName: 'Jane',
+      })
+      .expect(400);
+
+    expect(response.body).toMatchObject({
+      code: 'email_already_in_use',
+    });
+  });
+
+  it('rejects creating a user with a username that is already in use', async () => {
+    await request(app.getHttpServer())
+      .post('/users')
+      .send({
+        loginType: 'username',
+        username: 'duplicateuser',
+        firstName: 'John',
+      })
+      .expect(200);
+
+    const response = await request(app.getHttpServer())
+      .post('/users')
+      .send({
+        loginType: 'username',
+        username: 'duplicateuser',
+        firstName: 'Jane',
+      })
+      .expect(400);
+
+    expect(response.body).toMatchObject({
+      code: 'username_already_in_use',
+    });
+  });
 });
