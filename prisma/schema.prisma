@@ -17,6 +17,7 @@ enum UserStatus {
   active
   inactive
   deleted
+  pre_registered
 
   @@map("user_status")
 }

@@ -1,7 +1,7 @@
 import { LoginTypeWithPassword } from '#modules/identity/core/model/user-identifier.model';
 import { z } from 'zod';
 
-export const createUserSchema = z
+export const preRegisterUserSchema = z
   .object({
     loginType: z.enum(LoginTypeWithPassword),
     email: z.email().optional(),
@@ -27,7 +27,7 @@ export const createUserSchema = z
     }
   });
 
-export const createUserResponseSchema = z.object({
+export const preRegisterUserResponseSchema = z.object({
   loginType: z.enum(LoginTypeWithPassword),
   identity: z.string(),
   temporaryPassword: z.string().length(5),

@@ -3,11 +3,11 @@ import {
   LoginTypeWithPassword,
   UserIdentifierModel,
 } from '#modules/identity/core/model/user-identifier.model';
-import { UserModel } from '#modules/identity/core/model/user.model';
+import { UserModel, UserStatus } from '#modules/identity/core/model/user.model';
 import { IdentifierAvailabilityService } from '#modules/identity/core/service/identifier-availability.service';
 import { generateTemporaryPassword } from '#modules/identity/core/util/generate-temporary-password.util';
-import { CreateUserResponseDto } from '#modules/identity/http/dto/create-user-response.dto';
-import { CreateUserDto } from '#modules/identity/http/dto/create-user.dto';
+import { PreRegisterUserResponseDto } from '#modules/identity/http/dto/pre-register-user-response.dto';
+import { PreRegisterUserDto } from '#modules/identity/http/dto/pre-register-user.dto';
 import { PasswordCredentialRepository } from '#modules/identity/persistence/password-credential.prisma-repository';
 import { UserIdentifierRepository } from '#modules/identity/persistence/user-identifier.prisma-repository';
 import { UserRepository } from '#modules/identity/persistence/user.prisma-repository';
@@ -17,9 +17,9 @@ import { UseCase } from '#shared-libs/interfaces/core/use-case.interface';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class CreateUserUseCase implements UseCase<
-  CreateUserDto,
-  CreateUserResponseDto
+export class PreRegisterUserUseCase implements UseCase<
+  PreRegisterUserDto,
+  PreRegisterUserResponseDto
 > {
   constructor(
     private readonly prismaService: PrismaService,
@@ -30,7 +30,7 @@ export class CreateUserUseCase implements UseCase<
     private readonly identifierAvailabilityService: IdentifierAvailabilityService,
   ) {}
 
-  async execute(data: CreateUserDto): Promise<CreateUserResponseDto> {
+  async execute(data: PreRegisterUserDto): Promise<PreRegisterUserResponseDto> {
     const identifierValue =
       data.loginType === LoginTypeWithPassword.email
         ? data.email!
@@ -48,6 +48,7 @@ export class CreateUserUseCase implements UseCase<
     const user = UserModel.create({
       firstName: data.firstName,
       lastName: data.lastName,
+      status: UserStatus.preRegistered,
     });
 
     const userIdentifier = UserIdentifierModel.create({

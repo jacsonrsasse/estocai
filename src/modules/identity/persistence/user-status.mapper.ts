@@ -7,11 +7,13 @@ export class UserStatusMapper {
     active: 'active',
     inactive: 'inactive',
     deleted: 'deleted',
+    pre_registered: 'pre_registered',
   };
 
   static toDomain: Record<UserStatusPrisma, UserStatus> = {
     active: UserStatus.active,
     inactive: UserStatus.inactive,
     deleted: UserStatus.deleted,
+    pre_registered: UserStatus.preRegistered,
   };
 }

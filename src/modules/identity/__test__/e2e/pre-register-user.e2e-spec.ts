@@ -7,7 +7,7 @@ import { Tables } from '#test/tables';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
-describe('POST /users (e2e)', () => {
+describe('POST /users/pre-register (e2e)', () => {
   let app: INestApplication;
   let passwordHashingService: PasswordHashingService;
 
@@ -27,7 +27,7 @@ describe('POST /users (e2e)', () => {
 
   it('creates a user with an email identifier and a password credential', async () => {
     const response = await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({
         loginType: 'email',
         email: 'john.doe@example.com',
@@ -56,7 +56,7 @@ describe('POST /users (e2e)', () => {
     expect(createdUser).toMatchObject({
       first_name: 'John',
       last_name: 'Doe',
-      status: 'active',
+      status: 'pre_registered',
     });
 
     const createdCredential = await testDbClient(Tables.PasswordCredentials)
@@ -75,7 +75,7 @@ describe('POST /users (e2e)', () => {
 
   it('creates a user with a username identifier', async () => {
     const response = await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({
         loginType: 'username',
         username: 'johndoe',
@@ -99,28 +99,28 @@ describe('POST /users (e2e)', () => {
 
   it('rejects a payload with an invalid firstName', async () => {
     await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({ loginType: 'email', email: 'john.doe@example.com', firstName: 'Jo' })
       .expect(400);
   });
 
   it('rejects an email loginType without an email', async () => {
     await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({ loginType: 'email', firstName: 'John' })
       .expect(400);
   });
 
   it('rejects a username loginType without a username', async () => {
     await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({ loginType: 'username', firstName: 'John' })
       .expect(400);
   });
 
   it('rejects creating a user with an email that is already in use', async () => {
     await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({
         loginType: 'email',
         email: 'duplicate@example.com',
@@ -129,7 +129,7 @@ describe('POST /users (e2e)', () => {
       .expect(200);
 
     const response = await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({
         loginType: 'email',
         email: 'duplicate@example.com',
@@ -144,7 +144,7 @@ describe('POST /users (e2e)', () => {
 
   it('rejects creating a user with a username that is already in use', async () => {
     await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({
         loginType: 'username',
         username: 'duplicateuser',
@@ -153,7 +153,7 @@ describe('POST /users (e2e)', () => {
       .expect(200);
 
     const response = await request(app.getHttpServer())
-      .post('/users')
+      .post('/users/pre-register')
       .send({
         loginType: 'username',
         username: 'duplicateuser',

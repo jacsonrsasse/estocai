@@ -1,5 +1,5 @@
 import { IdentifierAvailabilityService } from '#modules/identity/core/service/identifier-availability.service';
-import { CreateUserUseCase } from '#modules/identity/core/use-case/create-user.use-case';
+import { PreRegisterUserUseCase } from '#modules/identity/core/use-case/pre-register-user.use-case';
 import { SoftDeleteUserUseCase } from '#modules/identity/core/use-case/soft-delete-user.use-case';
 import { UserController } from '#modules/identity/http/controller/user.controller';
 import { PasswordCredentialRepository } from '#modules/identity/persistence/password-credential.prisma-repository';
@@ -10,7 +10,7 @@ import { Module } from '@nestjs/common';
 @Module({
   controllers: [UserController],
   providers: [
-    CreateUserUseCase,
+    PreRegisterUserUseCase,
     SoftDeleteUserUseCase,
     UserRepository,
     UserIdentifierRepository,

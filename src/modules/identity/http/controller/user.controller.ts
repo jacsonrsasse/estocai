@@ -1,7 +1,7 @@
-import { CreateUserUseCase } from '#modules/identity/core/use-case/create-user.use-case';
+import { PreRegisterUserUseCase } from '#modules/identity/core/use-case/pre-register-user.use-case';
 import { SoftDeleteUserUseCase } from '#modules/identity/core/use-case/soft-delete-user.use-case';
-import { CreateUserResponseDto } from '#modules/identity/http/dto/create-user-response.dto';
-import { CreateUserDto } from '#modules/identity/http/dto/create-user.dto';
+import { PreRegisterUserResponseDto } from '#modules/identity/http/dto/pre-register-user-response.dto';
+import { PreRegisterUserDto } from '#modules/identity/http/dto/pre-register-user.dto';
 import { SoftDeleteUserParamsDto } from '#modules/identity/http/dto/soft-delete-user-params.dto';
 import {
   Body,
@@ -19,17 +19,17 @@ import { ZodResponse } from 'nestjs-zod';
 @Controller('/users')
 export class UserController {
   constructor(
-    private readonly createUserUserCase: CreateUserUseCase,
+    private readonly preRegisterUserUseCase: PreRegisterUserUseCase,
     private readonly softDeleteUserUseCase: SoftDeleteUserUseCase,
   ) {}
 
-  @Post('/')
-  @ApiOperation({ summary: 'Creates a new user' })
-  @ZodResponse({ type: CreateUserResponseDto, status: HttpStatus.OK })
-  async create(
-    @Body() createUser: CreateUserDto,
-  ): Promise<CreateUserResponseDto> {
-    return this.createUserUserCase.execute(createUser);
+  @Post('/pre-register')
+  @ApiOperation({ summary: 'Creates a pre-registered user' })
+  @ZodResponse({ type: PreRegisterUserResponseDto, status: HttpStatus.OK })
+  async preRegister(
+    @Body() preRegisterUser: PreRegisterUserDto,
+  ): Promise<PreRegisterUserResponseDto> {
+    return this.preRegisterUserUseCase.execute(preRegisterUser);
   }
 
   @Delete('/:userId')

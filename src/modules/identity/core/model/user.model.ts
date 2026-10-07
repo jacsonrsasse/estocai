@@ -5,6 +5,7 @@ export enum UserStatus {
   active = 'active',
   inactive = 'inactive',
   deleted = 'deleted',
+  preRegistered = 'pre_registered',
 }
 
 export class UserModel {
