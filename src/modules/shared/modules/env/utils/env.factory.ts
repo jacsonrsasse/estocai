@@ -12,6 +12,8 @@ export const factory = (): Env => {
     },
     security: {
       passwordPepper: process.env.PASSWORD_PEPPER,
+      jwtSecret: process.env.JWT_SECRET,
+      jwtExpiresInSeconds: process.env.JWT_EXPIRES_IN_SECONDS,
     },
   });
 

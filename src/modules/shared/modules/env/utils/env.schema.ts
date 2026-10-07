@@ -10,6 +10,8 @@ const databaseSchema = z.object({
 
 const securitySchema = z.object({
   passwordPepper: z.string(),
+  jwtSecret: z.string(),
+  jwtExpiresInSeconds: z.coerce.number().default(3600),
 });
 
 export const envSchema = z.object({

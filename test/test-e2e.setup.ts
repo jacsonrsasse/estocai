@@ -1,4 +1,5 @@
 import { ApplicationExceptionFilter } from '#shared-libs/exception/application-exception.filter';
+import { AuthModule } from '#shared-modules/auth/auth.module';
 import { EnvModule } from '#shared-modules/env/env.module';
 import { PasswordHashingModule } from '#shared-modules/password-hashing/password-hashing.module';
 import { PrismaModule } from '#shared-modules/persistence/prisma/prisma.module';
@@ -11,6 +12,7 @@ const commonImports: ModuleMetadata['imports'] = [
   EnvModule.forRoot(),
   PrismaModule,
   PasswordHashingModule,
+  AuthModule,
 ];
 
 export const createNestApp = async (

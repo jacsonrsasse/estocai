@@ -25,4 +25,21 @@ export class PasswordCredentialRepository extends PrismaDefaultRepository {
       this.handleAndThrowError(error);
     }
   }
+
+  async findByUserId(
+    userId: string,
+    tx?: Prisma.TransactionClient,
+  ): Promise<PasswordCredentialModel | null> {
+    try {
+      const found = await (tx?.passwordCredential ?? this.model).findFirst({
+        where: { userId },
+      });
+      if (!found) {
+        return null;
+      }
+      return PasswordCredentialModel.restore(found);
+    } catch (error) {
+      this.handleAndThrowError(error);
+    }
+  }
 }

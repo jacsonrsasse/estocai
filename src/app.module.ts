@@ -1,4 +1,5 @@
 import { IdentityModule } from '#modules/identity/identity.module';
+import { AuthModule } from '#shared-modules/auth/auth.module';
 import { EnvModule } from '#shared-modules/env/env.module';
 import { PasswordHashingModule } from '#shared-modules/password-hashing/password-hashing.module';
 import { PrismaModule } from '#shared-modules/persistence/prisma/prisma.module';
@@ -11,6 +12,7 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod';
     EnvModule.forRoot(),
     PrismaModule,
     PasswordHashingModule,
+    AuthModule,
     IdentityModule,
   ],
   controllers: [],
